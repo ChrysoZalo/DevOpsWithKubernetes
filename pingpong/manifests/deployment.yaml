@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: pingpong
+  name: pingpong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pingpong
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: pingpong
+    spec:
+      containers:
+      - image: chrysozalo/pingpong:2
+        name: pingpong
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
