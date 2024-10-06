@@ -1,10 +1,26 @@
-<h1>{{.PageTitle}}</h1>
-<ul>
-    {{range .Todos}}
-        {{if .Done}}
-            <li class="done">{{.Title}}</li>
-        {{else}}
-            <li>{{.Title}}</li>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Todo App</title>
+</head>
+
+<body>
+<img src="/todo/tmp/images/image.jpg" alt="TODO List" style="width:200px;height:200px;">
+    <h1>{{.PageTitle}}</h1>
+    <form method="POST">
+        <input type="text" name="todoInput">
+        <input type="submit" value="Create TODO">
+    </form>
+    <ul>
+        {{range .Todos}}
+            {{if .Done}}
+                <li class="done">{{.Title}}</li>
+            {{else}}
+                <li>{{.Title}}</li>
+            {{end}}
         {{end}}
-    {{end}}
-</ul>
+    </ul>
+</body>
+
+</html>

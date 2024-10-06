@@ -17,8 +17,12 @@ spec:
       labels:
         app: todo-deploy
     spec:
+      volumes:
+        - name: cashed-image
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
-      - image: chrysozalo/todo-app:3
+      - image: chrysozalo/todo-app:14
         name: todo-app
         imagePullPolicy: IfNotPresent
         env:
@@ -26,5 +30,8 @@ spec:
           value: "80"
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: cashed-image
+          mountPath: /tmp/images
         resources: {}
 status: {}
