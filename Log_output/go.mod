@@ -1,4 +1,4 @@
-module github.com/ChrysoZalo/DevOpsWithKubernetes/Part1
+module github.com/ChrysoZalo/DevOpsWithKubernetes/logoutput
 
 go 1.21.3
 

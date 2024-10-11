@@ -22,12 +22,9 @@ spec:
           persistentVolumeClaim:
             claimName: image-claim
       containers:
-      - image: chrysozalo/todo-app:14
+      - image: chrysozalo/todo-app:47 # todo-app:42 it works
         name: todo-app
         imagePullPolicy: IfNotPresent
-        env:
-        - name: PORT
-          value: "80"
         ports:
         - containerPort: 80
         volumeMounts:

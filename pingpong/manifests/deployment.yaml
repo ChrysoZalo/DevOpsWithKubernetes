@@ -17,11 +17,21 @@ spec:
       labels:
         app: pingpong
     spec:
+      volumes:
+        - name: shared-number
+          persistentVolumeClaim:
+            claimName: log-pong-claim
       containers:
-      - image: chrysozalo/pingpong:2
+      - image: chrysozalo/pingpong:3
         name: pingpong
         imagePullPolicy: IfNotPresent
+        env:
+        - name: FILE_URL
+          value: "/tmp/data/number.txt"
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: shared-number
+          mountPath: /tmp/data # TODO: Add to this and Log deployment url env var
         resources: {}
 status: {}

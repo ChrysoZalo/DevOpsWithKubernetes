@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -32,14 +33,34 @@ func logging() []string {
 	}
 }
 
+type pongResponse struct {
+	Number int `json:"number"`
+}
+
 func main() {
 	r := mux.NewRouter()
+	// url := os.Getenv("FILE_URL")
 
 	go logging()
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		for _, str := range strSlice {
 			fmt.Fprintln(w, str)
+			data, err := http.Get("http://localhost:3000/pong")
+			if err != nil || data.Status == "404 Not Found" {
+				responseWithError(w, http.StatusInternalServerError, fmt.Sprintf("Error retrieving data from pingpong api:", err))
+			}
+			// data, err := os.ReadFile(url)
+			// if err != nil {
+			// 	fmt.Println(err)
+			// }
+			decoder := json.NewDecoder(data.Body)
+			pongResponse := pongResponse{}
+			err = decoder.Decode(&pongResponse)
+			if err != nil {
+				responseWithError(w, http.StatusInternalServerError, fmt.Sprintf("Error parsing JSON:", err))
+			}
+			fmt.Fprintln(w, pongResponse.Number)
 		}
 	}).Methods("GET")
 

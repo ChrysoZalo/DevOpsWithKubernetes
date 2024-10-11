@@ -1,13 +1,33 @@
-FROM golang:1.21-alpine
+# Use the official Node.js image as a base
+FROM node:18-alpine AS build
 
+# Set the working directory
 WORKDIR /app
 
-COPY go.mod go.sum ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-RUN go mod download
+# Install dependencies
+RUN npm install
 
-COPY *.go layout.html ./
+# Copy the rest of the application code
+COPY . .
 
-RUN CGO_ENABLE=0 GOOS=linux go build -o /todo-app
+# RUN rm -rf .env
 
-CMD ["/todo-app"]
+# Build the React application
+RUN npm run build
+
+# Use a lightweight web server to serve the build
+FROM nginx:stable-alpine
+
+COPY --from=build /app/build /usr/share/nginx/html/todo
+#COPY --from=build /app/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
+# Todo: Make it a simple docker file for react, and test it with ingress into k8s

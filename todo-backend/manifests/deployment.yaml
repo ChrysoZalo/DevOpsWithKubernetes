@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: todo-backend
+  name: todo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+      - image: chrysozalo/todo-backend:2
+        name: todo-backend
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PORT
+          value: "80"
+        ports:
+        - containerPort: 80
+status: {}

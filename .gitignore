@@ -1,0 +1,4 @@
+pingpong/tmp/
+todo_app/tmp/
+*.exe
+.env
